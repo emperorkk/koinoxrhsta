@@ -96,9 +96,15 @@ CREATE TABLE memberships (
 -- ---------- Δαπάνες ----------
 CREATE TABLE expense_categories (
   id uuid PRIMARY KEY, organization_id uuid REFERENCES organizations,  -- NULL = system default
+  building_id uuid REFERENCES buildings,        -- NULL = πρότυπο, αλλιώς παραμετροποίηση κτιρίου
   code text NOT NULL, name text NOT NULL,
-  default_table_code text, default_method text, default_payer text,    -- TENANT|OWNER|MIXED
-  default_owner_pct numeric(5,2) DEFAULT 0
+  default_table_code text, default_method text,
+  -- Κανόνας ιδιοκτήτη/ενοικιαστή (απόφαση Δ5)
+  owner_pct numeric(5,2) NOT NULL DEFAULT 0,    -- % της δαπάνης που βαρύνει τον ιδιοκτήτη
+  owner_share_basis text NOT NULL DEFAULT 'PRORATA',   -- PRORATA (χιλιοστά) | LUMP_SUM (κατ' αποκοπή)
+  owner_lump_amount numeric(14,2),              -- όταν LUMP_SUM: ποσό ανά ιδιοκτησία
+  vacant_behavior text NOT NULL DEFAULT 'OWNER_PAYS_ALL', -- OWNER_PAYS_ALL|COEFFICIENT|EXEMPT
+  vacant_coefficient numeric(5,4)               -- όταν COEFFICIENT
 );
 
 CREATE TABLE suppliers (
@@ -117,8 +123,9 @@ CREATE TABLE expenses (
   vat_amount numeric(14,2) NOT NULL DEFAULT 0,
   table_id uuid REFERENCES distribution_tables,
   method text NOT NULL,                      -- BY_MILLS|EQUAL|PER_PERSON|BY_AREA|BY_CONSUMPTION|HEATING_MIXED|MANUAL|SINGLE_UNIT|SUBSET
-  payer_rule text NOT NULL DEFAULT 'TENANT', -- TENANT|OWNER|MIXED
-  owner_pct numeric(5,2) NOT NULL DEFAULT 0, -- όταν MIXED
+  -- overrides του κανόνα της κατηγορίας (NULL = κληρονομεί την κατηγορία)
+  owner_pct numeric(5,2), owner_share_basis text, owner_lump_amount numeric(14,2),
+  vacant_behavior text, vacant_coefficient numeric(5,4),
   billing_period_id uuid,                    -- σε ποια έκδοση χρεώθηκε (NULL = εκκρεμεί)
   paid_at date, fund_account_id uuid,        -- από ποιο ταμείο πληρώθηκε
   attachment_url text, created_by uuid REFERENCES users,
@@ -192,7 +199,7 @@ CREATE TABLE unit_statements (               -- σύνολα ανά διαμέρ
   tenant_person_id uuid REFERENCES persons, owner_person_id uuid REFERENCES persons,
   period_total numeric(14,2) NOT NULL, previous_balance numeric(14,2) NOT NULL DEFAULT 0,
   total_due numeric(14,2) NOT NULL, paid_amount numeric(14,2) NOT NULL DEFAULT 0,
-  payment_code text,                         -- RF/QR code
+  payment_code text,                         -- αιτιολογία κατάθεσης, π.χ. 'ΚΤ12-Α1-2026-01'
   pdf_url text, sent_at timestamptz,
   UNIQUE (billing_period_id, unit_id)
 );
@@ -201,7 +208,7 @@ CREATE TABLE payments (
   id uuid PRIMARY KEY, building_id uuid NOT NULL REFERENCES buildings,
   unit_id uuid NOT NULL REFERENCES units, person_id uuid REFERENCES persons,
   paid_at date NOT NULL, amount numeric(14,2) NOT NULL CHECK (amount > 0),
-  method text NOT NULL,                      -- CASH|BANK|IRIS|CARD|OTHER
+  method text NOT NULL,                      -- CASH|BANK|EBANKING|STANDING_ORDER|OTHER  [Δ3: χωρίς PSP στο MVP]
   reference text, fund_account_id uuid, note text,
   created_by uuid REFERENCES users, created_at timestamptz NOT NULL DEFAULT now()
 );
@@ -216,7 +223,7 @@ CREATE TABLE payment_allocations (           -- συμψηφισμός πληρ�
 -- ---------- Ταμεία & αποθεματικό ----------
 CREATE TABLE fund_accounts (
   id uuid PRIMARY KEY, building_id uuid NOT NULL REFERENCES buildings,
-  kind text NOT NULL,                        -- CASH|BANK|RESERVE
+  kind text NOT NULL,                        -- OPERATING (ταμείο διαχείρισης) | RESERVE (αποθεματικό)  [Δ8]
   name text NOT NULL, iban text,
   target_amount numeric(14,2),               -- στόχος αποθεματικού
   min_alert_amount numeric(14,2)

@@ -9,9 +9,10 @@
 
 | Αρχείο | Περιεχόμενο |
 |---|---|
+| [docs/00-apofaseis.md](docs/00-apofaseis.md) | **Κλειδωμένες αποφάσεις** σχεδιασμού (υπερισχύουν) |
 | [docs/01-analysi-agoras.md](docs/01-analysi-agoras.md) | Έρευνα ελληνικών λύσεων & κανόνες domain (χιλιοστά, θέρμανση, ιδιοκτήτης/ενοικιαστής, αποθεματικό) |
 | [docs/02-schediasmos.md](docs/02-schediasmos.md) | Πλήρης σχεδιασμός: ρόλοι, διαμόρφωση, δαπάνες, μηχανή κατανομής, περίοδοι, ταμεία, αναφορές, αρχιτεκτονική, roadmap |
 | [docs/03-data-model.sql](docs/03-data-model.sql) | Σχήμα βάσης (PostgreSQL) |
-| [docs/04-anoixta-themata.md](docs/04-anoixta-themata.md) | Ανοιχτά θέματα / ερωτήσεις προς απόφαση |
+| [docs/04-anoixta-themata.md](docs/04-anoixta-themata.md) | Ανοιχτά θέματα & προτεινόμενες προεπιλογές |
 
 Κατάσταση: **φάση σχεδιασμού** — δεν έχει ξεκινήσει υλοποίηση.
