@@ -47,7 +47,9 @@ CREATE TABLE units (
   code text NOT NULL,                       -- 'Α1','Β2','ΙΣ1'
   kind text NOT NULL DEFAULT 'APARTMENT',   -- APARTMENT|SHOP|OFFICE|GARAGE|STORAGE|COMMON
   floor int, area_sqm numeric(8,2), persons_count int NOT NULL DEFAULT 1,
-  is_active boolean NOT NULL DEFAULT true,  -- κλειστό/κενό = active αλλά χωρίς tenant
+  is_active boolean NOT NULL DEFAULT true,
+  is_closed boolean NOT NULL DEFAULT false, -- [Δ16] κλειστό: μισά χιλιοστά όπου closed_coefficient<1
+  closed_from date, closed_to date,
   notes text,
   UNIQUE (building_id, code)
 );
@@ -114,7 +116,12 @@ CREATE TABLE expense_categories (
   id uuid PRIMARY KEY, organization_id uuid REFERENCES organizations,  -- NULL = system default
   building_id uuid REFERENCES buildings,        -- NULL = πρότυπο, αλλιώς παραμετροποίηση κτιρίου
   code text NOT NULL, name text NOT NULL,
-  default_table_code text, default_method text,
+  cost_group_id uuid REFERENCES cost_groups,    -- [Δ18] ομάδα/στήλη εντύπου
+  table_id uuid REFERENCES distribution_tables, -- πίνακας χιλιοστών
+  method text NOT NULL DEFAULT 'BY_MILLS',      -- BY_MILLS|EQUAL|BY_HOURS|FIXED_PER_UNIT|HEATING_MIXED
+  default_description text,                     -- [Δ18] προτεινόμενη αιτιολογία (= όνομα κατηγορίας)
+  closed_coefficient numeric(5,4) NOT NULL DEFAULT 1,  -- [Δ16] 0.5 σε ανελκυστήρα & καθαρισμό
+  sort_order int NOT NULL DEFAULT 0, is_active boolean NOT NULL DEFAULT true,
   -- Κανόνας ιδιοκτήτη/ενοικιαστή (απόφαση Δ5)
   owner_pct numeric(5,2) NOT NULL DEFAULT 0,    -- % της δαπάνης που βαρύνει τον ιδιοκτήτη
   owner_share_basis text NOT NULL DEFAULT 'PRORATA',   -- PRORATA (χιλιοστά) | LUMP_SUM (κατ' αποκοπή)
@@ -136,7 +143,8 @@ CREATE TABLE expenses (
   expense_date date NOT NULL,
   quantity numeric(12,3), unit_price numeric(12,4),     -- π.χ. 'ΣΥΝΤΗΡΗΣΗ 51,76*3'
   period_from date, period_to date,          -- περίοδος αναφοράς παραστατικού
-  description text, document_no text,
+  description text NOT NULL,                 -- [Δ18] «αιτιολογία» — τυπώνεται αυτούσια στο έντυπο
+  document_no text,
   amount numeric(14,2) NOT NULL CHECK (amount >= 0),
   vat_amount numeric(14,2) NOT NULL DEFAULT 0,
   table_id uuid REFERENCES distribution_tables,
@@ -198,7 +206,7 @@ CREATE TABLE billing_periods (
   reserve_contribution numeric(14,2),        -- [Δ12] εισφορά αποθεματικού που ορίζει ο διαχειριστής
   reserve_opening numeric(14,2),             -- αυτόματα από τις κινήσεις αποθεματικού
   reserve_closing numeric(14,2),
-  rounding_unit_id uuid REFERENCES units,    -- [§5.4] πού πάει η διαφορά στρογγυλοποίησης
+  rounding_unit_id uuid REFERENCES units,    -- [Δ14] μεγαλύτερα χιλιοστά, εκ περιτροπής σε ισοβαθμία
   snapshot jsonb,                            -- πάγωμα χιλιοστών/ενοίκων/ρυθμίσεων κατά την έκδοση
   totals jsonb, issued_by uuid REFERENCES users, issued_at timestamptz,
   UNIQUE (building_id, code)

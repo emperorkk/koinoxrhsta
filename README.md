@@ -15,6 +15,7 @@
 | [docs/03-data-model.sql](docs/03-data-model.sql) | Σχήμα βάσης (PostgreSQL) |
 | [docs/04-anoixta-themata.md](docs/04-anoixta-themata.md) | Ανοιχτά θέματα & προτεινόμενες προεπιλογές |
 | [docs/05-entypo-sygkentrotiki.md](docs/05-entypo-sygkentrotiki.md) | Προδιαγραφή εντύπου συγκεντρωτικής (υπόδειγμα Apical Service) |
+| [docs/06-roi-ekdosis.md](docs/06-roi-ekdosis.md) | Ροή καταχώρησης δαπανών & έκδοσης (κατηγορίες, κλειστά, αποθεματικό) |
 | [docs/mockups/sygkentrotiki.html](docs/mockups/sygkentrotiki.html) | Mockup αναπαραγωγής του εντύπου |
 
 Κατάσταση: **φάση σχεδιασμού** — δεν έχει ξεκινήσει υλοποίηση.
