@@ -93,6 +93,22 @@ CREATE TABLE memberships (
   valid_from date NOT NULL DEFAULT current_date, valid_to date
 );
 
+-- ---------- Ομάδες δαπανών (blocks του εντύπου ↔ στήλες του πίνακα) [Δ13] ----------
+CREATE TABLE cost_groups (
+  id uuid PRIMARY KEY, building_id uuid NOT NULL REFERENCES buildings,
+  code text NOT NULL,          -- COMMON|HEATING|AUTONOMY|BOILER|ELEVATOR|SPECIAL|ISSUANCE|
+                               -- OWNERS|EQUAL_SHARES|INDIVIDUAL|CLOSED|ROUNDING
+  block_title text NOT NULL,   -- τίτλος block στο έντυπο, π.χ. 'ΑΥΤΟΤΕΛΕΙΣ ΧΡΕΩΣΕΙΣ ΙΔΙΟΚΤΗΤΩΝ'
+  column_title text NOT NULL,  -- τίτλος στήλης, π.χ. 'ΙΔΙΟΚΤΗΤΩΝ'
+  table_id uuid REFERENCES distribution_tables,
+  method text NOT NULL,        -- BY_MILLS|EQUAL|BY_HOURS|FIXED_PER_UNIT|ROUNDING
+  meter_type text,             -- όταν BY_HOURS: HEAT_HOURS|BOILER_HOURS
+  owner_pct numeric(5,2) NOT NULL DEFAULT 0,
+  owner_share_basis text NOT NULL DEFAULT 'PRORATA',
+  sort_order int NOT NULL, is_active boolean NOT NULL DEFAULT true,
+  UNIQUE (building_id, code)
+);
+
 -- ---------- Δαπάνες ----------
 CREATE TABLE expense_categories (
   id uuid PRIMARY KEY, organization_id uuid REFERENCES organizations,  -- NULL = system default
@@ -115,8 +131,10 @@ CREATE TABLE suppliers (
 CREATE TABLE expenses (
   id uuid PRIMARY KEY, building_id uuid NOT NULL REFERENCES buildings,
   category_id uuid NOT NULL REFERENCES expense_categories,
+  cost_group_id uuid NOT NULL REFERENCES cost_groups,   -- σε ποιο block/στήλη τυπώνεται
   supplier_id uuid REFERENCES suppliers,
   expense_date date NOT NULL,
+  quantity numeric(12,3), unit_price numeric(12,4),     -- π.χ. 'ΣΥΝΤΗΡΗΣΗ 51,76*3'
   period_from date, period_to date,          -- περίοδος αναφοράς παραστατικού
   description text, document_no text,
   amount numeric(14,2) NOT NULL CHECK (amount >= 0),
@@ -149,7 +167,7 @@ CREATE TABLE recurring_expenses (            -- πρότυπα επαναλαμ�
 -- ---------- Μετρήσεις (ωρομέτρηση / θερμιδομέτρηση / υδρόμετρα) ----------
 CREATE TABLE meter_readings (
   id uuid PRIMARY KEY, unit_id uuid NOT NULL REFERENCES units,
-  meter_type text NOT NULL,                  -- HEAT_HOURS|HEAT_KWH|WATER_M3
+  meter_type text NOT NULL,                  -- HEAT_HOURS|BOILER_HOURS|HEAT_KWH|WATER_M3
   period_from date NOT NULL, period_to date NOT NULL,
   value numeric(14,3) NOT NULL, note text
 );
@@ -173,7 +191,14 @@ CREATE TABLE billing_periods (
   period_from date NOT NULL, period_to date NOT NULL,   -- «από–έως μήνες»
   label text, issue_date date, due_date date,
   status text NOT NULL DEFAULT 'DRAFT',      -- DRAFT|REVIEW|ISSUED|CLOSED|CANCELLED
-  reserve_rule jsonb NOT NULL DEFAULT '{}',  -- εισφορά αποθεματικού αυτής της περιόδου
+  month_label text,                          -- 'ΑΠΡ-ΜΑΙΟΣ-ΙΟΥΝ 2026' (auto από το από–έως, με override)
+  announcement text,                         -- πλαίσιο ΑΝΑΚΟΙΝΩΣΗ
+  heating_fixed_amount numeric(14,2),        -- [Δ10] πάγιο θέρμανσης: καρφωτό ποσό...
+  heating_fixed_pct numeric(5,2),            -- ...ή καρφωτό ποσοστό, όπως το δίνει ο διαχειριστής
+  reserve_contribution numeric(14,2),        -- [Δ12] εισφορά αποθεματικού που ορίζει ο διαχειριστής
+  reserve_opening numeric(14,2),             -- αυτόματα από τις κινήσεις αποθεματικού
+  reserve_closing numeric(14,2),
+  rounding_unit_id uuid REFERENCES units,    -- [§5.4] πού πάει η διαφορά στρογγυλοποίησης
   snapshot jsonb,                            -- πάγωμα χιλιοστών/ενοίκων/ρυθμίσεων κατά την έκδοση
   totals jsonb, issued_by uuid REFERENCES users, issued_at timestamptz,
   UNIQUE (building_id, code)
@@ -184,7 +209,8 @@ CREATE TABLE charges (                       -- μία γραμμή ανά (έκ
   billing_period_id uuid NOT NULL REFERENCES billing_periods ON DELETE CASCADE,
   unit_id uuid NOT NULL REFERENCES units,
   expense_id uuid REFERENCES expenses,       -- NULL για εισφορά αποθεματικού/ατομική χρέωση
-  charge_kind text NOT NULL DEFAULT 'EXPENSE', -- EXPENSE|RESERVE|INDIVIDUAL|ADJUSTMENT|PREVIOUS_BALANCE
+  cost_group_id uuid REFERENCES cost_groups,   -- στήλη του εντύπου
+  charge_kind text NOT NULL DEFAULT 'EXPENSE', -- EXPENSE|RESERVE|INDIVIDUAL|ROUNDING|ADJUSTMENT|PREVIOUS_BALANCE
   description text,
   amount numeric(14,2) NOT NULL,
   tenant_amount numeric(14,2) NOT NULL DEFAULT 0,

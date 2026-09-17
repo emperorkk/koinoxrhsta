@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<title>Συγκεντρωτική Κοινοχρήστων</title>
+<style>
+  @page { size: A4 landscape; margin: 8mm; }
+  :root{ --amt:#ffffcc; --sum:#cceeff; --line:#333; --hdr:#f2f2f2; }
+  *{ box-sizing:border-box; }
+  body{ font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#000; background:#fff; margin:0; padding:10px; }
+  .sheet{ width:1180px; margin:0 auto; }
+  table{ border-collapse:collapse; width:100%; }
+  td,th{ border:1px solid var(--line); padding:1px 4px; white-space:nowrap; }
+  .top{ display:flex; gap:0; align-items:stretch; }
+  .top > div{ flex:0 0 auto; }
+  .col-id{ width:300px; } .col-a{ width:290px; } .col-b{ width:290px; } .col-c{ width:300px; }
+  .brand td{ border:none; padding:2px 6px; font-size:15px; }
+  .hd{ background:var(--amt); font-weight:bold; text-align:center; }
+  .hd-l{ background:var(--amt); font-weight:bold; }
+  .sum{ background:var(--sum); font-weight:bold; }
+  .lbl{ background:#fff; font-weight:bold; text-align:right; }
+  .r{ text-align:right; } .c{ text-align:center; }
+  .grand{ background:var(--amt); font-weight:bold; font-size:14px; text-align:right; border:2px solid #000; }
+  .anak{ writing-mode:vertical-rl; transform:rotate(180deg); text-align:center; font-weight:bold; font-size:10px; width:16px; }
+  .matrix td,.matrix th{ font-size:10.5px; padding:1px 3px; }
+  .matrix th{ background:var(--hdr); text-align:center; font-weight:bold; }
+  .matrix tfoot td{ background:var(--sum); font-weight:bold; }
+  .note{ margin-top:10px; font-size:11px; color:#333; line-height:1.5; }
+  .note b{ color:#000; }
+  h4{ margin:16px 0 4px; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="top">
+    <!-- ΖΩΝΗ Α -->
+    <div class="col-id">
+      <table class="brand">
+        <tr><td>Apical Service</td></tr>
+        <tr><td>Χρ. Σμύρνης 41-43</td></tr>
+        <tr><td>Πεύκη 15121</td></tr>
+        <tr><td>Υπηρεσίες Κτιρίων</td></tr>
+        <tr><td style="font-size:13px">Τηλ.210 6120040 &nbsp; Φαξ 210 6140626</td></tr>
+      </table>
+      <table>
+        <tr><td class="lbl" style="width:45%">ΚΩΔΙΚΟΣ</td><td class="c">000335</td><td class="c">2/7/2026</td></tr>
+        <tr><td class="lbl">ΜΗΝΑΣ</td><td colspan="2">ΑΠΡ-ΜΑΙΟΣ-ΙΟΥΝ 2026</td></tr>
+        <tr><td class="lbl">ΔΙΑΧΕΙΡΙΣΤΗΣ</td><td colspan="2">ΓΕΩΡΓΙΟΥ ΑΠΟΣΤΟΛΟΣ</td></tr>
+        <tr><td class="lbl">ΔΙΕΥΘΥΝΣΗ</td><td colspan="2">ΑΓΙΟΥ ΝΙΚΟΛΑΟΥ 3</td></tr>
+        <tr><td class="lbl">ΠΕΡΙΟΧΗ</td><td colspan="2">ΜΑΡΟΥΣΙ</td></tr>
+      </table>
+      <table style="margin-top:2px">
+        <tr><td class="anak" rowspan="1">ΑΝΑΚΟΙΝΩΣΗ</td><td style="height:58px;white-space:normal;vertical-align:top">&nbsp;</td></tr>
+      </table>
+    </div>
+
+    <!-- ΚΟΙΝΟΧΡΗΣΤΑ -->
+    <div class="col-a">
+      <table>
+        <tr><td class="hd">ΚΟΙΝΟΧΡΗΣΤΑ</td><td class="hd" style="width:33%">ΠΟΣΟ</td></tr>
+        <tr><td>ΔΕΗ ΜΑΙΟΥ</td><td class="r">167,00</td></tr>
+        <tr><td>ΔΕΗ ΙΟΥΝΙΟΥ</td><td class="r">74,00</td></tr>
+        <tr><td>ΝΕΡΟ ΚΟΙΝΟΧΡΗΣΤΩΝ</td><td class="r">14,73</td></tr>
+        <tr><td>ΠΥΡΟΣΒΕΣΤΗΡΑΣ</td><td class="r">19,00</td></tr>
+        <tr><td>ΛΑΣΤΙΧΟ ΠΟΤΙΣΜΑΤΟΣ</td><td class="r">20,00</td></tr>
+        <tr><td>ΑΠΟΦΡΑΚΤΙΚΟ ΣΩΛΗΝΩΝ</td><td class="r">10,00</td></tr>
+        <tr><td>ΣΥΝΕΡΓΕΙΟ ΚΑΘ/ΣΜΟΥ ΑΠΡΙΛΙΟΥ</td><td class="r">60,00</td></tr>
+        <tr><td>ΣΥΝΕΡΓΕΙΟ ΚΑΘ/ΣΜΟΥ ΜΑΙΟΥ</td><td class="r">42,50</td></tr>
+        <tr><td>ΣΥΝΕΡΓΕΙΟ ΚΑΘ/ΣΜΟΥ ΙΟΥΝΙΟΥ</td><td class="r">85,00</td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum r">492,23</td></tr>
+      </table>
+    </div>
+
+    <!-- ΘΕΡΜΑΝΣΗ / ΕΙΔΙΚΕΣ -->
+    <div class="col-b">
+      <table>
+        <tr><td class="hd">ΘΕΡΜΑΝΣΗ</td><td class="hd" style="width:33%">ΠΟΣΟ</td></tr>
+        <tr><td>ΠΕΤΡΕΛΑΙΟ</td><td></td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum"></td></tr>
+        <tr><td class="hd">ΑΥΤΟΝΟΜΙΑ</td><td class="hd">ΠΟΣΟ</td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum"></td></tr>
+        <tr><td class="hd">BOILER</td><td class="hd">ΠΟΣΟ</td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum"></td></tr>
+        <tr><td class="hd">ΕΙΔΙΚΕΣ ΔΑΠΑΝΕΣ</td><td class="hd">ΠΟΣΟ</td></tr>
+        <tr><td>ΕΚΔΟΣΗ ΚΟΙΝΟΧΡΗΣΤΩΝ</td><td class="r">10,00</td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum r">10,00</td></tr>
+        <tr><td class="sum c" colspan="2">ΕΚΔΟΣΗ ΛΟΓΑΡΙΑΣΜΩΝ</td></tr>
+      </table>
+    </div>
+
+    <!-- ΑΣΑΝΣΕΡ / ΙΔΙΟΚΤΗΤΩΝ / ΙΣΑ ΜΕΡΗ -->
+    <div class="col-c">
+      <table>
+        <tr><td class="hd">ΑΣΑΝΣΕΡ</td><td class="hd" style="width:33%">ΠΟΣΟ</td></tr>
+        <tr><td>ΣΥΝΤΗΡΗΣΗ 51,76*3</td><td class="r">155,28</td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum r">155,28</td></tr>
+        <tr><td class="hd" colspan="2">ΑΥΤΟΤΕΛΕΙΣ ΧΡΕΩΣΕΙΣ ΙΔΙΟΚΤΗΤΩΝ</td></tr>
+        <tr><td class="hd-l">ΙΔΙΟΚΤΗΤΩΝ</td><td class="hd">ΠΟΣΟ</td></tr>
+        <tr><td style="white-space:normal;font-size:10px">ΑΠΟΘΕΜΑΤΙΚΟ ΜΕΧΡΙ ΚΑΙ 31/6/2026:<br>777,21 − 719,20 (ΜΕΤΑΤΡΟΠΗ ΛΕΒΗΤΑ) + 400 = 458,01</td><td class="r">400,00</td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum r">400,00</td></tr>
+        <tr><td class="hd">ΔΑΠΑΝΕΣ ΣΕ ΙΣΑ ΜΕΡΗ</td><td class="hd">ΠΟΣΟ</td></tr>
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="sum">ΣΥΝΟΛΟ</td><td class="sum"></td></tr>
+        <tr><td class="sum">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td class="grand">1.057,51</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ΖΩΝΗ Γ -->
+  <table class="matrix" style="margin-top:4px">
+    <thead>
+      <tr>
+        <th rowspan="2">Α/Α</th><th rowspan="2">ΟΝΟΜΑΤΕΠΩΝΥΜΟ</th><th rowspan="2">ΑΡ.<br>ΔΙΑΜ.</th>
+        <th colspan="3">ΧΙΛΙΟΣΤΑ</th><th colspan="2">ΩΡΕΣ</th>
+        <th colspan="12">ΠΟΣΟ ΑΝΑΛΟΓΙΑΣ ΣΕ ΕΥΡΩ</th>
+        <th rowspan="2">ΓΕΝΙΚΟ<br>ΣΥΝΟΛΟ</th>
+      </tr>
+      <tr>
+        <th>ΚΟΙΝ/ΤΑ</th><th>ΑΣΑΝΣΕΡ</th><th>ΘΕΡ/ΝΣΗ</th><th>ΑΤΟΜΙΚΗ</th><th>BOILER</th>
+        <th>ΚΟΙΝ/ΣΤΑ</th><th>ΑΣΑΝΣΕΡ</th><th>ΘΕΡΜΑΝΣΗ</th><th>ΑΤΟΜΙΚΗ</th><th>BOILER</th><th>ΚΛΕΙΣΤΑ</th>
+        <th>ΕΙΔΙΚΕΣ</th><th>ΙΔΙΟΚΤΗΤΩΝ</th><th>ΙΣΑ ΜΕΡΗ</th><th>ΕΚΔΟΣΗ</th><th>ΑΥΤΟΤΕΛΗ</th><th>ΣΤΡΟΓΓ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="c">001</td><td>ΠΑΠΑΔΟΠΟΥΛΟΣ Κ.</td><td class="c">Α1</td><td class="r">70,00</td><td class="r">50,00</td><td class="r">70,00</td><td></td><td></td><td class="r">34,46</td><td class="r">7,76</td><td></td><td></td><td></td><td></td><td class="r">0,70</td><td class="r">28,00</td><td></td><td></td><td></td><td></td><td class="r">70,92</td></tr>
+      <tr><td class="c">002</td><td>ΗΛΙΟΠΟΥΛΟΣ Δ.</td><td class="c">Α2</td><td class="r">133,00</td><td class="r">85,00</td><td class="r">133,00</td><td></td><td></td><td class="r">65,47</td><td class="r">13,20</td><td></td><td></td><td></td><td></td><td class="r">1,33</td><td class="r">53,20</td><td></td><td></td><td></td><td></td><td class="r">133,20</td></tr>
+      <tr><td class="c">003</td><td>ΝΙΚΟΛΑΪΔΗΣ Ν.</td><td class="c">Β1</td><td class="r">70,00</td><td class="r">70,00</td><td class="r">70,00</td><td></td><td></td><td class="r">34,46</td><td class="r">10,87</td><td></td><td></td><td></td><td></td><td class="r">0,70</td><td class="r">28,00</td><td></td><td></td><td></td><td></td><td class="r">74,03</td></tr>
+      <tr><td class="c">004</td><td>ΑΝΤΩΝΙΟΥ Σ.</td><td class="c">Β2</td><td class="r">133,00</td><td class="r">130,00</td><td class="r">133,00</td><td></td><td></td><td class="r">65,47</td><td class="r">20,19</td><td></td><td></td><td></td><td></td><td class="r">1,33</td><td class="r">53,20</td><td></td><td></td><td></td><td></td><td class="r">140,19</td></tr>
+      <tr><td class="c">005</td><td>ΓΕΩΡΓΙΟΥ ΝΙΚΟΛΑΟΣ</td><td class="c">Γ1</td><td class="r">70,00</td><td class="r">85,00</td><td class="r">70,00</td><td></td><td></td><td class="r">34,46</td><td class="r">13,20</td><td></td><td></td><td></td><td></td><td class="r">0,70</td><td class="r">28,00</td><td></td><td></td><td></td><td></td><td class="r">76,36</td></tr>
+      <tr><td class="c">006</td><td>ΣΤΑΜΑΤΙΟΥ Θ.</td><td class="c">Γ2</td><td class="r">133,00</td><td class="r">170,00</td><td class="r">133,00</td><td></td><td></td><td class="r">65,47</td><td class="r">26,40</td><td></td><td></td><td></td><td></td><td class="r">1,33</td><td class="r">53,20</td><td></td><td></td><td></td><td></td><td class="r">146,40</td></tr>
+      <tr><td class="c">007</td><td>ΡΟΥΣΣΟΣ Α.</td><td class="c">Δ1</td><td class="r">70,00</td><td class="r">100,00</td><td class="r">70,00</td><td></td><td></td><td class="r">34,46</td><td class="r">15,53</td><td></td><td></td><td></td><td></td><td class="r">0,70</td><td class="r">28,00</td><td></td><td></td><td></td><td></td><td class="r">78,69</td></tr>
+      <tr><td class="c">008</td><td>ΓΕΩΡΓΙΟΥ ΑΠΟΣΤΟΛΟΣ</td><td class="c">Δ2</td><td class="r">133,00</td><td class="r">200,00</td><td class="r">133,00</td><td></td><td></td><td class="r">65,47</td><td class="r">31,06</td><td></td><td></td><td></td><td></td><td class="r">1,33</td><td class="r">53,20</td><td></td><td></td><td></td><td class="r">−0,04</td><td class="r">151,02</td></tr>
+      <tr><td class="c">009</td><td>ΓΕΩΡΓΙΟΥ ΑΠΟΣΤΟΛΟΣ</td><td class="c">ΔΩΜ</td><td class="r">15,00</td><td class="r">20,00</td><td class="r">15,00</td><td></td><td></td><td class="r">7,38</td><td class="r">3,11</td><td></td><td></td><td></td><td></td><td class="r">0,15</td><td class="r">6,00</td><td></td><td></td><td></td><td></td><td class="r">16,64</td></tr>
+      <tr><td class="c">010</td><td>ΚΑΡΑΠΑΝΟΥ Μ.</td><td class="c">ΙΣ1</td><td class="r">74,00</td><td class="r">40,00</td><td class="r">74,00</td><td></td><td></td><td class="r">36,43</td><td class="r">6,21</td><td></td><td></td><td></td><td></td><td class="r">0,74</td><td class="r">29,60</td><td></td><td></td><td></td><td></td><td class="r">72,98</td></tr>
+      <tr><td class="c">011</td><td>ΚΟΥΡΕΝΤΖΗΣ Β.</td><td class="c">ΙΣ2</td><td class="r">99,00</td><td class="r">50,00</td><td class="r">99,00</td><td></td><td></td><td class="r">48,73</td><td class="r">7,76</td><td></td><td></td><td></td><td></td><td class="r">0,99</td><td class="r">39,60</td><td></td><td></td><td></td><td></td><td class="r">97,08</td></tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="c">ΓΕΝΙΚΑ ΣΥΝΟΛΑ =&gt;</td>
+        <td class="r">1000,00</td><td class="r">1000,00</td><td class="r">1000,00</td><td></td><td></td>
+        <td class="r">492,26</td><td class="r">155,29</td><td></td><td></td><td></td><td></td>
+        <td class="r">10,00</td><td class="r">400,00</td><td></td><td></td><td></td><td class="r">−0,04</td>
+        <td class="r">1.057,51</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="note">
+    <b>Σημειώσεις mockup.</b> Τα χιλιοστά, οι δαπάνες και τα ποσά είναι ακριβώς του υποδείγματος· τα ονόματα είναι εικονικά.
+    <br><b>Στρογγυλοποίηση:</b> κάθε κελί στρογγυλοποιείται κανονικά, ώστε <b>ίδια χιλιοστά ⇒ ίδιο ποσό</b>. Η συνολική διαφορά
+    (−0,04 €) καταχωρείται στη στήλη <b>ΣΤΡΟΓΓ</b> του διαμερίσματος με τα μεγαλύτερα χιλιοστά, ώστε το άθροισμα της στήλης
+    ΓΕΝΙΚΟ ΣΥΝΟΛΟ να ισούται <b>ακριβώς</b> με το ΓΕΝΙΚΟ ΣΥΝΟΛΟ των δαπανών (1.057,51 €).
+    Στο αρχικό έντυπο τα σύνολα γραμμής υπολογίζονται από αστρογγύλευτες τιμές και το άθροισμά τους βγαίνει 1.057,50 €.
+  </div>
+</div>
+</body>
+</html>
