@@ -16,6 +16,7 @@
 | [docs/04-anoixta-themata.md](docs/04-anoixta-themata.md) | Ανοιχτά θέματα & προτεινόμενες προεπιλογές |
 | [docs/05-entypo-sygkentrotiki.md](docs/05-entypo-sygkentrotiki.md) | Προδιαγραφή εντύπου συγκεντρωτικής (υπόδειγμα Apical Service) |
 | [docs/06-roi-ekdosis.md](docs/06-roi-ekdosis.md) | Ροή καταχώρησης δαπανών & έκδοσης (κατηγορίες, κλειστά, αποθεματικό) |
-| [docs/mockups/sygkentrotiki.html](docs/mockups/sygkentrotiki.html) | Mockup αναπαραγωγής του εντύπου |
+| [docs/07-entypo-eidopoiitirio.md](docs/07-entypo-eidopoiitirio.md) | Προδιαγραφή ειδοποιητηρίου με πλήρη ανάλυση υπολογισμού |
+| [docs/mockups/sygkentrotiki.html](docs/mockups/sygkentrotiki.html) · [eidopoiitirio.html](docs/mockups/eidopoiitirio.html) | Mockups των δύο εντύπων |
 
 Κατάσταση: **φάση σχεδιασμού** — δεν έχει ξεκινήσει υλοποίηση.
