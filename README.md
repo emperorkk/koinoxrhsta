@@ -17,6 +17,9 @@
 | [docs/05-entypo-sygkentrotiki.md](docs/05-entypo-sygkentrotiki.md) | Προδιαγραφή εντύπου συγκεντρωτικής (υπόδειγμα Apical Service) |
 | [docs/06-roi-ekdosis.md](docs/06-roi-ekdosis.md) | Ροή καταχώρησης δαπανών & έκδοσης (κατηγορίες, κλειστά, αποθεματικό) |
 | [docs/07-entypo-eidopoiitirio.md](docs/07-entypo-eidopoiitirio.md) | Προδιαγραφή ειδοποιητηρίου με πλήρη ανάλυση υπολογισμού |
+| [docs/08-stack-ypodomi.md](docs/08-stack-ypodomi.md) | Stack, τοπολογία, backups, σειρά υλοποίησης |
 | [docs/mockups/sygkentrotiki.html](docs/mockups/sygkentrotiki.html) · [eidopoiitirio.html](docs/mockups/eidopoiitirio.html) | Mockups των δύο εντύπων |
 
-Κατάσταση: **φάση σχεδιασμού** — δεν έχει ξεκινήσει υλοποίηση.
+**Stack:** Next.js + PostgreSQL + Chromium σε Docker (VPS), με Cloudflare για DNS/TLS/Tunnel/R2.
+
+Κατάσταση: **σχεδιασμός ολοκληρωμένος** — επόμενο βήμα η μηχανή κατανομής με τα golden tests.
