@@ -67,14 +67,31 @@
 
 ## 8.5 Πόροι & συνύπαρξη με το Open WebUI
 
-| Υπηρεσία | RAM σε ηρεμία | Αιχμή |
-|---|---|---|
-| Next.js app | ~250 MB | ~400 MB |
-| PostgreSQL | ~150 MB | ~300 MB |
-| Chromium (μόνο κατά την έκδοση PDF) | 0 | ~500 MB |
-| cloudflared | ~30 MB | ~50 MB |
+**Μετρημένη κατάσταση VPS (hel-vps):** 3,7 GiB RAM συνολικά, 1,6 GiB σε χρήση, **2,2 GiB διαθέσιμα**, **swap 0 B**, δίσκος 38 GB με 23 GB ελεύθερα.
 
-**Χρειάζονται ≥1,5 GB ελεύθερης RAM** στις αιχμές. Μέτρα: `mem_limit` ανά container, serial (όχι παράλληλη) παραγωγή PDF, swap file αν το VPS είναι οριακό, ξεχωριστό docker network από το Open WebUI.
+| Container | `mem_limit` | Ηρεμία | Αιχμή |
+|---|---|---|---|
+| `app` (Next.js) | 640 MB | ~250 MB | ~450 MB |
+| `postgres` (`shared_buffers=128MB`, `work_mem=8MB`, `max_connections=20`) | 512 MB | ~150 MB | ~300 MB |
+| `pdf` (Chromium, `shm_size: 256m`) | 700 MB | ~90 MB | ~600 MB |
+| `cloudflared` | 64 MB | ~30 MB | ~50 MB |
+| **Σύνολο ορίων** | **~1,9 GB** | ~520 MB | — |
+
+**Υποχρεωτικό πριν το πρώτο deploy: swapfile 4 GB.** Με 2,2 GiB διαθέσιμα και μηδενικό swap, μια αιχμή του Chromium κατά την έκδοση θα μπορούσε να ενεργοποιήσει τον OOM killer και να σκοτώσει το Open WebUI.
+
+```bash
+sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile
+sudo mkswap /swapfile && sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo sysctl -w vm.swappiness=10   # swap μόνο ως δίχτυ ασφαλείας
+```
+
+Πρόσθετα μέτρα:
+- **Σειριακή παραγωγή PDF** (ουρά με concurrency 1) — ποτέ 11 Chromium ταυτόχρονα.
+- Το Chromium τρέχει σε **ξεχωριστό container** που μπορεί να σταματά εκτός εκδόσεων.
+- Προσοχή: `/tmp` και `/dev/shm` είναι **tmpfs 1,9 GB** — μετράνε στη RAM. Τα PDF γράφονται σε R2 ή σε disk volume, όχι στο `/tmp`.
+- Ξεχωριστό docker network από το Open WebUI· `mem_limit` και στα δύο stacks.
+- Δίσκος: η βάση θα μείνει κάτω από 1 GB για χρόνια· τα παραστατικά πάνε στο R2. Τακτικό `docker image prune`.
 
 ## 8.6 Backups & αποκατάσταση
 
